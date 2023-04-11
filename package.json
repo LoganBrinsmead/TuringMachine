@@ -1,0 +1,19 @@
+{
+  "name": "turingmachine",
+  "version": "1.0.0",
+  "description": "A turing machine for Theory of Computation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LoganBrinsmead/TuringMachine.git"
+  },
+  "author": "Logan Brinsmead",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LoganBrinsmead/TuringMachine/issues"
+  },
+  "homepage": "https://github.com/LoganBrinsmead/TuringMachine#readme"
+}
