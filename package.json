@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/LoganBrinsmead/TuringMachine/issues"
   },
-  "homepage": "https://github.com/LoganBrinsmead/TuringMachine#readme"
+  "homepage": "https://github.com/LoganBrinsmead/TuringMachine#readme",
+  "dependencies": {
+    "jquery": "^3.6.4"
+  }
 }
