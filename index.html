@@ -1,10 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style link="style.css" rel="stylesheet" />
-        <script href="index.js" />
+        <link href="style.css" rel="stylesheet" />
+        <script src="index.js" ></script>
     </head>
     <body>
         <h1>Turing Machine</h1>
+        <div class="Machine">
+            <div class="TapeContainer">
+                <div id="tape"></div>
+            </div>
+            <div class="MachineTopMiddleSection">
+                <div id="current-state"></div>
+                <h2>Load or Write a Turing Machine Program in the Box Below</h2>
+                <div id="steps"></div>
+            </div>
+            <div class="MachineMiddleSection">
+                <textarea id="ProgramText" wrap="off" title="Turing Machine Program goes here."></textarea>
+                <div class="ProgramControls">
+                    <span class="RunControls" title="Runs the Machine at Full Speed.">
+                        <button id="RunButton">Run</button>
+                        <input type="checkbox" id="SpeedCheckbox">
+                        Run at Full Speed.
+                    </span>
+                    <button id="PauseButton">Pause</button>
+                    <span class="StepSpan">
+                        <button id="StepButton">Step</button>
+                        <button id="UndoStepButton">Undo</button>
+                    </span>
+                    <button id="ResetButton">Reset</button>
+                    <span class="InputSpan">
+                        Initial Input: 
+                        <input type="text">
+                    </span>
+                    <button id="LoadExampleButton">Load an Example Program</button>
+                </div>
+                
+            </div>
+        </div>
+        </div>
     </body>
 </html>
