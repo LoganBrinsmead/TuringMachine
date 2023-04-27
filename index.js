@@ -43,12 +43,56 @@ class Head {
     }
 }
 
+/**
+ * format of JSON that contains rules:
+ * "state-in-head": {
+ *      "symbol-head-reads": ["state-head-changes-to", "symbol-head-writes", "direction-head-moves"]
+ *      "symbol-head-reads": ["state-head-changes-to", "symbol-head-writes", "direction-head-moves"]     
+ *      "symbol-head-reads": ["state-head-changes-to", "symbol-head-writes", "direction-head-moves"]     
+ * }
+ */
+
+rules = {};
+
 $(document).ready(function () {
     // parsing the information in the textarea and inserting that into a JSON object
     function parseProgram() {
-        const program = $("#ProgramText").val();
+        let program = $("#ProgramText").val();
+ 
+        program = program.split('\n');
+
+        program = program.filter(entry => entry);
+
+        let allRules = [];
+        let curRule = [];
+
+        for(let word of program) {
+            curRule = word.split(" ");
+            if(curRule.length < 5) {
+                alert("Error: All of your directives must have 5 rules in them (probably do this better than alert)");
+                break;
+            }
+            parseDirective(curRule);
+        }
 
         console.log(program, "test");
+    }
+
+    /**
+     * 
+     * @param { Array } directive - An array of the five rules that make up a directive, add to the JSON object of rules
+     */
+    function parseDirective(directive) {
+        /**
+         * in this function, convert the passed rule into a JSON object
+         * outside of this function, merge this created rule with the existing JSON of objects,
+         * check if key (state) already exists, and if it does, push rule onto the preexisting object
+         */
+
+        rules[directive[0]] = directive[1];
+        directive.unshift();
+        directive.unshift();
+        rules[directive[0]][directive[1]] = directive;
     }
 
     $("#ResetButton").on("click", parseProgram);
