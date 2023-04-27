@@ -43,3 +43,14 @@ class Head {
     }
 }
 
+$(document).ready(function () {
+    // parsing the information in the textarea and inserting that into a JSON object
+    function parseProgram() {
+        const program = $("#ProgramText").val();
+
+        console.log(program, "test");
+    }
+
+    $("#ResetButton").on("click", parseProgram);
+});
+
