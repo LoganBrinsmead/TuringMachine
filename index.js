@@ -52,9 +52,9 @@ class Head {
  * }
  */
 
-rules = {};
 
 $(document).ready(function () {
+    let rules = {};
     // parsing the information in the textarea and inserting that into a JSON object
     function parseProgram() {
         let program = $("#ProgramText").val();
@@ -72,12 +72,9 @@ $(document).ready(function () {
                 alert("Error: All of your directives must have 5 rules in them (probably do this better than alert)");
                 break;
             }
-            console.log(curRule);
             parseDirective(curRule);
         }
 
-        console.log(program, "test");
-        console.log(rules);
     }
 
     /**
@@ -87,14 +84,13 @@ $(document).ready(function () {
     function parseDirective(directive) {
 
         let curRules = `{
-            ${directive[0]}: {
-                ${directive[1]}: [${directive[2]}, ${directive[3]}, ${directive[4]}]
+            "${directive[0]}": {
+                "${directive[1]}": ["${directive[2]}", "${directive[3]}", "${directive[4]}"]
             }
         }`
 
-        JSON.stringify(curRules);
-        console.log(curRules);
-
+        curRules = JSON.parse(curRules);
+        rules = Object.assign({}, rules, curRules);
     }
 
 
