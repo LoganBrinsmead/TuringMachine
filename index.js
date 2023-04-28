@@ -58,7 +58,7 @@ $(document).ready(function () {
     // parsing the information in the textarea and inserting that into a JSON object
     function parseProgram() {
         let program = $("#ProgramText").val();
- 
+
         program = program.split('\n');
 
         program = program.filter(entry => entry);
@@ -66,16 +66,18 @@ $(document).ready(function () {
         let allRules = [];
         let curRule = [];
 
-        for(let word of program) {
+        for (let word of program) {
             curRule = word.split(" ");
-            if(curRule.length < 5) {
+            if (curRule.length < 5) {
                 alert("Error: All of your directives must have 5 rules in them (probably do this better than alert)");
                 break;
             }
+            console.log(curRule);
             parseDirective(curRule);
         }
 
         console.log(program, "test");
+        console.log(rules);
     }
 
     /**
@@ -83,17 +85,18 @@ $(document).ready(function () {
      * @param { Array } directive - An array of the five rules that make up a directive, add to the JSON object of rules
      */
     function parseDirective(directive) {
-        /**
-         * in this function, convert the passed rule into a JSON object
-         * outside of this function, merge this created rule with the existing JSON of objects,
-         * check if key (state) already exists, and if it does, push rule onto the preexisting object
-         */
 
-        rules[directive[0]] = directive[1];
-        directive.unshift();
-        directive.unshift();
-        rules[directive[0]][directive[1]] = directive;
+        let curRules = `{
+            ${directive[0]}: {
+                ${directive[1]}: [${directive[2]}, ${directive[3]}, ${directive[4]}]
+            }
+        }`
+
+        JSON.stringify(curRules);
+        console.log(curRules);
+
     }
+
 
     $("#ResetButton").on("click", parseProgram);
 });
