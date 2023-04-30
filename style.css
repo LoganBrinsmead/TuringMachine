@@ -1,0 +1,82 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family:'Courier New', Courier, monospace;
+}
+
+.Machine {
+    border: 2px solid #ff6666;
+    background-color: #ffefda;
+    padding-top: 0.5em;
+    padding-bottom: 0.25em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin: 10px 1%;
+    text-align: center;
+    display: inline-block;
+}
+
+.TapeContainer {
+    max-width: 90vw; 
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+.MachineTopMiddleSection {
+    text-align: center;
+    height: 4em;
+    position: relative;
+    width: 100%;
+}
+
+.MachineBox {
+    border: 1px solid grey;
+    padding-top: 12px;
+    padding-bottom: 0.25em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+    background-color: #C9F2C9;
+    overflow: hidden;
+}
+
+.MachineMiddleSection {
+    position: relative;
+    display: table;
+}
+
+#ProgramText {
+    background-color: transparent;
+    display: inline;
+    width: 800px;
+    min-width: 600px;
+    height: 400px;
+    min-height: 250px;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 17px;
+    position: relative;
+    margin: 0px;
+}
+
+.ProgramControls {
+    min-width: 275px;
+    max-width: 300px;
+    height: 100%;
+    text-align: left;
+    margin-left: 10px;
+    border: 1px solid grey;
+    padding: 4px;
+    margin-top: 4px;
+    padding-top: 12px;
+    padding-bottom: 15px;
+    background: #dedede;
+}
+
+#current-state {
+    float: left;
+}
