@@ -46,7 +46,32 @@ body {
 
 .MachineMiddleSection {
     position: relative;
-    display: table;
+    /* display: table; */
+    display: flex;
+    justify-content: center;
+}
+
+.BoxTitle {
+    position: relative;
+    top: 12px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    height: 15px;
+    display: inline;
+    background-color: #eeeeee;
+    border: 1px solid grey;
+    font-family: sans-serif;
+    /* font-variant: small-caps; */
+    font-size: small;
+    z-index: 3;
+    /* font-weight: bold;  */
+}
+
+.TuringMachineProgramSection {
+    display: flex;
+    flex-direction: column;
 }
 
 #ProgramText {

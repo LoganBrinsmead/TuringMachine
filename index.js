@@ -67,10 +67,16 @@ class Machine {
         return this.tape.tape + " " +  this.head.currentHead;
     }
     
-    run( ){
+    // run machine at full speed
+    run(){
         while( stepRules()){
         this.step();
         }
+    }
+
+    // run machine at half speed
+    halfSpeedRun() {
+        setInterval(run, 1000);
     }
 
 }
@@ -173,6 +179,8 @@ $(document).ready(function () {
         rules = Object.assign({}, rules, curRules);
     }
 
+    // logic for the reset button
+    
 
     $("#ResetButton").on("click", parseProgram);
 });
