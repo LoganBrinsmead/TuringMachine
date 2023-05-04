@@ -177,6 +177,7 @@ $(document).ready(function () {
 
         curRules = JSON.parse(curRules);
         rules = Object.assign({}, rules, curRules);
+        console.log(rules);
     }
 
     // logic for the reset button
