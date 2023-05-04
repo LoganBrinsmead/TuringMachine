@@ -66,63 +66,79 @@ class Machine {
     get status() {
         return this.tape.tape + " " +  this.head.currentHead;
     }
-    
+
+    moveHead(direction){
+        if(this.head.idx == 0 &&  direction == "L"){
+            this.tape.extendLeft();
+            this.head.idx -= 1;
+            
+        }
+        else if(this.head.idx == this.tape.tape.length - 1 &&  direction == "R"){
+            this.tape.extendRight();
+            this.head.idx += 1;
+            
+        }else if (direction == "L"){
+            this.head.idx -= 1;
+        }else if (direction == "R"){
+            this.head.idx += 1;
+        }
+        //else input is "*" and we do not move the head
+        
+
+    }
+
+    /**
+     * Returns true if we have a rule for the current state
+     * and input
+     * else it returns false
+     * 
+     */
+    stepRules(){
+
+        if(this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]){
+
+            return this.rules[this.head.state][this.tape.tape[this.head.idx]];
+        }
+
+        return false;
+    }
+
+
+    step() {
+
+        let newState;
+        let writeSymbol;
+        if(this.rules[this.head.state][this.tape.tape[this.head.idx]][0] == "*"){
+            //if the new state is "*" then we keep the current state
+            newState = this.head.state;
+        }else {
+            newState = this.rules[this.head.state][this.tape.tape[this.head.idx]][0];
+        }
+
+        if(this.rules[this.head.state][this.tape.tape[this.head.idx]][1] == "*"){
+            //if the new state is "*" then we keep the current symbol
+            writeSymbol = this.tape.tape[this.head.idx];
+        }else {
+            writeSymbol = this.rules[this.head.state][this.tape.tape[this.head.idx]][1];
+        }
+        
+        let direction  = this.rules[this.head.state][this.tape.tape[this.head.idx]][2];
+
+        this.tape.updateCell(this.head.location, writeSymbol);
+        this.head.state = newState;
+        this.moveHead(direction); 
+        
+
+    }
+
     run( ){
         while( stepRules()){
-        this.step();
+            this.step();
         }
     }
 
 }
 
-/**
- * Returns true if we have a rule for the current state
- * and input
- * else it returns false
- * 
- */
-function stepRules(){
-
-    if(this.rules[this.head.currentHead] && this.rules[this.head.currentHead][this.tape.tape[this.head.idx]]){
-
-        return this.rules[this.head.currentHead][this.tape.tape[this.head.idx]];
-    }
-
-    return false;
-}
-
-
-function step() {
-    let newState = this.rules[this.head.currentHead][this.tape.tape[this.head.idx]][0];
-    let writeSymbol = his.rules[this.head.currentHead][this.tape.tape[this.head.idx]][1];
-    let direction  = his.rules[this.head.currentHead][this.tape.tape[this.head.idx]][2];
-
-    this.tape.updateCell(this.head.location, writeSymbol);
-    this.head.state = newState;
-    this.moveHead(direction); 
-    
-
-}
-
-function moveHead(direction){
-    if(this.head.idx == 0 &&  direction == "L"){
-        this.tape.extendLeft();
-        this.head.idx -= 1;
-        
-    }
-    else if(this.head.idx == this.tape.tape.length - 1 &&  direction == "R"){
-        this.tape.extendRight();
-        this.head.idx += 1;
-        
-    }else if (direction == "L"){
-        this.head.idx -= 1;
-    }else if (direction == "R"){
-        this.head.idx += 1;
-    }else {
-        //input is "*" and we don't want ot move the head
-    }
-
-}
 /**
  * format of JSON that contains rules:
  * "state-in-head": {
