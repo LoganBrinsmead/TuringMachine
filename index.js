@@ -153,11 +153,14 @@ $(document).ready(function () {
         let curRule = [];
 
         for (let word of program) {
+            if(word.trim()[0] === ';') {
+                continue;
+            }
             curRule = word.split(" ");
             if (curRule.length < 5) {
                 alert("Error: All of your directives must have 5 rules in them (probably do this better than alert)");
                 break;
-            }
+            } 
             parseDirective(curRule);
         }
 
