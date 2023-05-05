@@ -11,22 +11,22 @@
 
         <div class="Machine">
             <div class="MachineTopSection">
-                <div class="tape">
-                    <!-- <div class="BoxTitle">Tape</div> -->
-                    <div id="steps" class="MachineBox">
+                <div id="MachineTapeContainer">
+                    <div class="BoxTitle">Tape</div>
+                    <div id="MachineTape" class="MachineStatusBox">
                         <div id="RunningTapeDisplay" aria-live="polite">
                             <div id="TapeValues">
-                                <p id="leftTape" class="tape"></p>
+                                <pre id="leftTape" class="tape"></pre>
 
                                 <div id="ActiveTapeArea">
-                                    <p id="ActiveTape" class="tape">1</p>
+                                    <pre id="ActiveTape" class="tape">1</pre>
                                     <div id="MachineHead">
                                         <div class="HeadTop"></div>
                                         <div class="HeadBody">Head</div>
                                     </div>
                                 </div>
 
-                                <p id="RightTape" class="tape">0010001</p>
+                                <pre id="RightTape" class="tape">0010001</pre>
 
                             </div>
                         </div>

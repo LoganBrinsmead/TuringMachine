@@ -53,10 +53,20 @@ body {
     margin-bottom: 8px;
     margin-left: 0;
     margin-right: 0;
-    /* text-align: center; */
+    text-align: center;
     font-family: "Courier New", courier;
     background-color: #C9F2C9;
     overflow: hidden;
+}
+
+#MachineTape {
+    background-color: #eee8aa;
+    padding-top: 10px;
+    padding-left: 0px;
+    font-size: x-large;
+    margin-bottom: 1em;
+    overflow: auto;
+    position: relative;
 }
 
 /* .MachineStatusContainer {
@@ -66,7 +76,7 @@ body {
     margin: 12px;
 } */
 
-.MachineBox {
+/* .MachineBox {
     border: 1px solid grey;
     padding-top: 12px;
     padding-bottom: 0.25em;
@@ -79,7 +89,7 @@ body {
     text-align: center;
     background-color: #C9F2C9;
     overflow: hidden;
-}
+} */
 
 .MachineMiddleSection {
     position: relative;
@@ -158,16 +168,36 @@ body {
     float: left;
 }
 
+#MachineTapeContainer {
+    max-width: 90vw;
+    margin-left: 4%;
+    margin-right: 4%;
+    width: 100vh;
+}
+
 /* Active Tape and Head Styles */
 #RunningTapeDisplay {
     height: 2.5em;
-    white-space: pre;
+    /* white-space: pre; */
+    overflow: auto;
+}
+
+pre {
+    display: block;
+    font-family: monospace;
+    /* white-space: pre; */
+    margin: 1em 0px;
 }
 
 #MachineTape {
+    background-color: #eee8aa;
+    padding-top: 10px;
+    padding-left: 0px;
     font-size: x-large;
+    margin-bottom: 1em;
+    overflow: auto;
+    position: relative;
 }
-
 #LeftTape {
     text-align: right;
     padding-left: 5px;
@@ -203,4 +233,61 @@ body {
 #RightTape {
     text-align: left;
     padding-right: 5px;
+}
+
+.tape {
+    position: relative;
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+#MachineHead {
+    position: absolute;
+    /* left: -50%; */
+    left: -9px;
+    top: 100%;
+    width: 32px;
+    /* display: none; */
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+
+.HeadBody {
+    width: 32px;
+    height: 14px;
+    text-align: center;
+    font-size: small;
+    background: #ff9933;
+    border-left: 1px solid #333333;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+}
+
+.HeadTop {
+    height: 10px;
+    width: 0px;
+}
+
+.HeadTop:before {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 17px solid transparent;
+    border-right: 17px solid transparent;
+    border-bottom: 10px solid #333333;
+}
+
+.HeadTop:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    margin-top: 1px;
+    margin-left: 2px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 9px solid #ff9933;
 }
