@@ -162,6 +162,11 @@ class Machine {
         }
     }
 
+    // run machine at half speed
+    halfSpeedRun() {
+        setInterval(run, 1000);
+    }
+
 }
 
 /**
@@ -188,11 +193,14 @@ $(document).ready(function () {
         let curRule = [];
 
         for (let word of program) {
+            if(word.trim()[0] === ';') {
+                continue;
+            }
             curRule = word.split(" ");
             if (curRule.length < 5) {
                 alert("Error: All of your directives must have 5 rules in them (probably do this better than alert)");
                 break;
-            }
+            } 
             parseDirective(curRule);
         }
 
@@ -211,6 +219,7 @@ $(document).ready(function () {
 
         curRules = JSON.parse(curRules);
         rules = Object.assign({}, rules, curRules);
+        console.log(rules);
     }
 
     let tape = new Tape;
