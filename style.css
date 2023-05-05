@@ -46,7 +46,38 @@ body {
 
 .MachineMiddleSection {
     position: relative;
-    display: table;
+    /* display: table; */
+    display: flex;
+    justify-content: center;
+}
+
+.BoxTitle {
+    position: relative;
+    top: 12px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    height: 15px;
+    display: inline;
+    background-color: #eeeeee;
+    border: 1px solid grey;
+    font-family: sans-serif;
+    /* font-variant: small-caps; */
+    font-size: small;
+    z-index: 3;
+    /* font-weight: bold;  */
+
+    margin: 15px;
+    padding: 5px;
+    background-color: lightblue;
+    border-radius: 5px;
+
+}
+
+.TuringMachineProgramSection {
+    display: flex;
+    flex-direction: column;
 }
 
 #ProgramText {
@@ -61,6 +92,15 @@ body {
     line-height: 17px;
     position: relative;
     margin: 0px;
+    overflow: scroll;
+    padding: 32px;
+}
+
+#ProgramBackground {
+    background-color: white;
+    z-index: -4;
+    display: block;
+    /* border: 1px solid green;  */
 }
 
 .ProgramControls {
@@ -79,4 +119,51 @@ body {
 
 #current-state {
     float: left;
+}
+
+/* Active Tape and Head Styles */
+#RunningTapeDisplay {
+    height: 2.5em;
+    white-space: pre;
+}
+
+#MachineTape {
+    font-size: x-large;
+}
+
+#LeftTape {
+    text-align: right;
+    padding-left: 5px;
+}
+
+#ActiveTapeArea {
+    position: relative;
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+#ActiveTape {
+    color: red;
+    border: 1px solid lightgrey;
+    font-weight: bold;
+    background-color: #bbf8ff;
+}
+
+#MachineHead {
+    position: absolute;
+    left: -50%;
+    left: -9px;
+    top: 100%;
+    width: 32px;
+}
+
+.HeadTop {
+    height: 10px;
+    width: 0px;
+}
+
+#RightTape {
+    text-align: left;
+    padding-right: 5px;
 }

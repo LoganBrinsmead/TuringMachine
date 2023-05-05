@@ -1,50 +1,84 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link href="style.css" rel="stylesheet" />
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-        <script src="index.js" ></script>
-    </head>
-    <body>
-        <h1>Turing Machine</h1>
 
-        <div class="Machine">
-            <div class="TapeContainer" class="MachineBox">
-                <div id="tape"></div>
-            </div>
+<head>
+    <link href="style.css" rel="stylesheet" />
+</head>
 
-            <div class="MachineTopMiddleSection">
-                <div id="current-state"></div>
-                <h2>Load or Write a Turing Machine Program in the Box Below</h2>
-                <div id="steps" class="MachineBox"></div>
-            </div>
+<body>
+    <h1>Turing Machine</h1>
 
-            <div class="MachineMiddleSection">
-                <textarea id="ProgramText" wrap="off" title="Turing Machine Program goes here."></textarea>
-                
-                <div class="ProgramControls">
-                    <span class="RunControls" title="Runs the Machine at Full Speed.">
-                        <button id="RunButton">Run</button>
-                        <input type="checkbox" id="SpeedCheckbox">
-                        Run at Full Speed.
-                    </span>
-                    <button id="PauseButton">Pause</button>
-                    <span class="StepSpan">
-                        <button id="StepButton">Step</button>
-                        <button id="UndoStepButton">Undo</button>
-                    </span>
-                    <button id="ResetButton">Reset</button>
-                    <span class="InputSpan">
-                        Initial Input: 
-                        <input type="text">
-                    </span>
-                    <button id="LoadExampleButton">Load an Example Program</button>
+    <div class="Machine">
+        <!-- <div class="TapeContainer" class="MachineBox">
+            <div id="tape"></div>
+        </div> -->
+
+        <div class="MachineTopMiddleSection">
+            <div id="current-state"></div>
+            <h2>Load or Write a Turing Machine Program in the Box Below</h2>
+
+            <div class="tape">
+                <!-- <div class="BoxTitle">Tape</div> -->
+                <div id="steps" class="MachineBox">
+                    <div id="RunningTapeDisplay" aria-live="polite">
+                        <div id="TapeValues">
+                            <pre id="leftTape" class="tape"></pre>
+
+                            <div id="ActiveTapeArea">
+                                <pre id="ActiveTape" class="tape">1</pre>
+                                <div id="MachineHead">
+                                    <div class="HeadTop"></div>
+                                    <div class="HeadBody">Head</div>
+                                </div>
+                            </div>
+
+                            <pre id="RightTape" class="tape">0010001</pre>
+
+                        </div>
+                    </div>
                 </div>
-                
+
             </div>
 
         </div>
 
-        <!-- </div> -->
-    </body>
+        <div class="MachineMiddleSection">
+
+            <div class="TuringMachineProgramSection">
+                <div class="BoxTitle">Turing Machine Program</div>
+                <!-- <div id="ProgramBackground"> -->
+                <textarea id="ProgramText" wrap="off" title="Turing Machine Program goes here."></textarea>
+                <!-- </div> -->
+            </div>
+
+            <div class="ProgramControls">
+                <span class="RunControls" title="Runs the Machine at Full Speed.">
+                    <button id="RunButton">Run</button>
+                    <input type="checkbox" id="SpeedCheckbox">
+                    Run at Full Speed.
+                </span>
+                <button id="PauseButton">Pause</button>
+                <span class="StepSpan">
+                    <button id="StepButton">Step</button>
+                    <button id="UndoStepButton">Undo</button>
+                </span>
+                <button id="ResetButton">Reset</button>
+                <span class="InputSpan">
+                    Initial Input:
+                    <input type="text">
+                </span>
+                <button id="LoadExampleButton">Load an Example Program</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- </div> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="index.js"></script>
+
+</body>
+
+
 </html>
