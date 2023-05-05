@@ -4,6 +4,13 @@ body {
     font-family:'Courier New', Courier, monospace;
 }
 
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .Machine {
     border: 2px solid #ff6666;
     background-color: #ffefda;
@@ -22,12 +29,42 @@ body {
     margin-right: 4%;
 }
 
+.MachineTopSection {
+    display: flex;
+    justify-content: center;
+}
+
 .MachineTopMiddleSection {
     text-align: center;
     height: 4em;
     position: relative;
     width: 100%;
+    display: flex;
+    justify-content: space-around;
 }
+
+.MachineStatusBox {
+    border: 1px solid grey;
+    padding-top: 12px;
+    padding-bottom: 0.25em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    margin-left: 0;
+    margin-right: 0;
+    /* text-align: center; */
+    font-family: "Courier New", courier;
+    background-color: #C9F2C9;
+    overflow: hidden;
+}
+
+/* .MachineStatusContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 12px;
+} */
 
 .MachineBox {
     border: 1px solid grey;
