@@ -61,11 +61,19 @@ class Machine {
     constructor(tape, head, rules) {
         this.tape = tape;
         this.head = head;
-        this.rules = rules; 
+        this.rules = rules;
+        this.runStatus = false;
     }
+    
     get status() {
         return this.tape.tape + " " +  this.head.currentHead;
     }
+    set status(runState){
+
+        this.runStatus = runState;
+
+    }
+  
 
     moveHead(direction){
         if(this.head.idx == 0 &&  direction == "L"){
@@ -91,8 +99,8 @@ class Machine {
      * Returns true if we have a rule for the current state
      * and input
      * else it returns false
-     * 
      */
+
     stepRules(){
 
         if(this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]){
@@ -130,10 +138,27 @@ class Machine {
         
 
     }
+    /**
+     * This function should allow the user to take a single step 
+     * in the turing machine
+     */
+    oneStep(){
+        if(this.stepRules()){
+            this.step();
+        }
+    }
+    /**
+     * have a boolean variable runTrue
+     * pass it to setter
+     * check to see if it is true
+     * and if it is false 
+     * 
+     */
 
     run( ){
-        while( stepRules()){
-            this.step();
+        while( stepRules() && this.runStatus){
+            this.step();      
+        
         }
     }
 
@@ -174,7 +199,6 @@ $(document).ready(function () {
     }
 
     /**
-     * 
      * @param { Array } directive - An array of the five rules that make up a directive, add to the JSON object of rules
      */
     function parseDirective(directive) {
@@ -189,7 +213,15 @@ $(document).ready(function () {
         rules = Object.assign({}, rules, curRules);
     }
 
+    let tape = new Tape;
+    let head = new Head;
+    let m = new Machine(tape, head, rules);
+    m.run();
 
-    $("#ResetButton").on("click", parseProgram);
+    $("#RunButton").on("click", parseProgram);
+    $("#StepButton").on("click", oneStep);
+    $("#PauseButton").on("click", function (){
+        $("#PauseButton").prop("disabled", true);
+        m.status(false);
+    });
 });
-
