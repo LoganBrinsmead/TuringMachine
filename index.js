@@ -61,16 +61,104 @@ class Machine {
     constructor(tape, head, rules) {
         this.tape = tape;
         this.head = head;
-        this.rules = rules; 
+        this.rules = rules;
+        this.runStatus = false;
     }
+    
     get status() {
         return this.tape.tape + " " +  this.head.currentHead;
     }
-    
-    // run machine at full speed
-    run(){
-        while( stepRules()){
-        this.step();
+    set status(runState){
+
+        this.runStatus = runState;
+
+    }
+  
+
+    moveHead(direction){
+        if(this.head.idx == 0 &&  direction == "L"){
+            this.tape.extendLeft();
+            this.head.idx -= 1;
+            
+        }
+        else if(this.head.idx == this.tape.tape.length - 1 &&  direction == "R"){
+            this.tape.extendRight();
+            this.head.idx += 1;
+            
+        }else if (direction == "L"){
+            this.head.idx -= 1;
+        }else if (direction == "R"){
+            this.head.idx += 1;
+        }
+        //else input is "*" and we do not move the head
+        
+
+    }
+
+    /**
+     * Returns true if we have a rule for the current state
+     * and input
+     * else it returns false
+     */
+
+    stepRules(){
+
+        if(this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]){
+
+            return this.rules[this.head.state][this.tape.tape[this.head.idx]];
+        }
+
+        return false;
+    }
+
+
+    step() {
+
+        let newState;
+        let writeSymbol;
+        if(this.rules[this.head.state][this.tape.tape[this.head.idx]][0] == "*"){
+            //if the new state is "*" then we keep the current state
+            newState = this.head.state;
+        }else {
+            newState = this.rules[this.head.state][this.tape.tape[this.head.idx]][0];
+        }
+
+        if(this.rules[this.head.state][this.tape.tape[this.head.idx]][1] == "*"){
+            //if the new state is "*" then we keep the current symbol
+            writeSymbol = this.tape.tape[this.head.idx];
+        }else {
+            writeSymbol = this.rules[this.head.state][this.tape.tape[this.head.idx]][1];
+        }
+        
+        let direction  = this.rules[this.head.state][this.tape.tape[this.head.idx]][2];
+
+        this.tape.updateCell(this.head.location, writeSymbol);
+        this.head.state = newState;
+        this.moveHead(direction); 
+        
+
+    }
+    /**
+     * This function should allow the user to take a single step 
+     * in the turing machine
+     */
+    oneStep(){
+        if(this.stepRules()){
+            this.step();
+        }
+    }
+    /**
+     * have a boolean variable runTrue
+     * pass it to setter
+     * check to see if it is true
+     * and if it is false 
+     * 
+     */
+
+    run( ){
+        while( stepRules() && this.runStatus){
+            this.step();      
+        
         }
     }
 
@@ -81,54 +169,6 @@ class Machine {
 
 }
 
-/**
- * Returns true if we have a rule for the current state
- * and input
- * else it returns false
- * 
- */
-function stepRules(){
-
-    if(this.rules[this.head.currentHead] && this.rules[this.head.currentHead][this.tape.tape[this.head.idx]]){
-
-        return this.rules[this.head.currentHead][this.tape.tape[this.head.idx]];
-    }
-
-    return false;
-}
-
-
-function step() {
-    let newState = this.rules[this.head.currentHead][this.tape.tape[this.head.idx]][0];
-    let writeSymbol = his.rules[this.head.currentHead][this.tape.tape[this.head.idx]][1];
-    let direction  = his.rules[this.head.currentHead][this.tape.tape[this.head.idx]][2];
-
-    this.tape.updateCell(this.head.location, writeSymbol);
-    this.head.state = newState;
-    this.moveHead(direction); 
-    
-
-}
-
-function moveHead(direction){
-    if(this.head.idx == 0 &&  direction == "L"){
-        this.tape.extendLeft();
-        this.head.idx -= 1;
-        
-    }
-    else if(this.head.idx == this.tape.tape.length - 1 &&  direction == "R"){
-        this.tape.extendRight();
-        this.head.idx += 1;
-        
-    }else if (direction == "L"){
-        this.head.idx -= 1;
-    }else if (direction == "R"){
-        this.head.idx += 1;
-    }else {
-        //input is "*" and we don't want ot move the head
-    }
-
-}
 /**
  * format of JSON that contains rules:
  * "state-in-head": {
@@ -167,7 +207,6 @@ $(document).ready(function () {
     }
 
     /**
-     * 
      * @param { Array } directive - An array of the five rules that make up a directive, add to the JSON object of rules
      */
     function parseDirective(directive) {
@@ -183,9 +222,15 @@ $(document).ready(function () {
         console.log(rules);
     }
 
-    // logic for the reset button
-    
+    let tape = new Tape;
+    let head = new Head;
+    let m = new Machine(tape, head, rules);
+    m.run();
 
-    $("#ResetButton").on("click", parseProgram);
+    $("#RunButton").on("click", parseProgram);
+    $("#StepButton").on("click", oneStep);
+    $("#PauseButton").on("click", function (){
+        $("#PauseButton").prop("disabled", true);
+        m.status(false);
+    });
 });
-
