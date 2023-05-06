@@ -1,13 +1,19 @@
 // a class for the Machine Tape
 class Tape {
     constructor(string) {
-        this.tape = parse(string);
+        this.tape(Tape.parse(string));
     }
 
     // get the tape
     get tape() {
         return this.tape.join("");
     }
+
+    // setter for tape
+    set tape(string) {
+        this.tape = string; 
+    }
+
     //lets us push a blank symbol to the back of the array
     extendRight() {
 
@@ -222,12 +228,23 @@ $(document).ready(function () {
         console.log(rules);
     }
 
-    let tape = new Tape;
-    let head = new Head;
-    let m = new Machine(tape, head, rules);
-    m.run();
+    // This is the function that binds to the reset button
+    // TODO: I am adding the functionality for display without any testing
+    // TODO: Need to add functionality for the actual machine logic
+    function resetButton() {
 
-    $("#RunButton").on("click", parseProgram);
+    }
+
+    let tape = new Tape("1001001");
+    let head = new Head;
+
+    $("#RunButton").on("click", function() {
+        parseProgram();
+        let m = new Machine(tape, head, rules);
+        m.run();
+    
+        
+    });
     $("#StepButton").on("click", oneStep);
     $("#PauseButton").on("click", function (){
         $("#PauseButton").prop("disabled", true);
