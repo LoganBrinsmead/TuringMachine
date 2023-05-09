@@ -170,7 +170,7 @@ class Machine {
     run() {
         while (this.stepRules()) {
             this.step();
-
+            console.log(this.status);
         }
     }
 
@@ -246,7 +246,7 @@ $(document).ready(function () {
 
         let curRules = `{
             "${directive[0]}": {
-                "${directive[1]}": ["${directive[4]}", "${directive[2]}", "${directive[3]}"]
+                "${directive[1]}": ["${directive[2]}", "${directive[4]}", "${directive[3]}"]
             }
         }`
 
@@ -262,16 +262,33 @@ $(document).ready(function () {
 
     }
 
-    let tape = new Tape("1 0 0 1 0 0 1");
+    let tape = new Tape("1 0 1 0 1 B 1 1 1 0 0");
     let head = new Head("s1 0");
 
     $("#RunButton").on("click", function (e) {
         parseProgram();
+        rules = {
+            "s1": {
+                "0": ["s1", "0", "R"],
+                "1": ["s1", "1", "R"],
+                "B": ["s2", "B", "L"]
+            },
+            "s2": {
+                "0": ["s3", "1", "L"],
+                "1": ["s2", "0", "L"],
+                "B": ["s3", "1", "L"]
+            },
+            "s3": {
+                "0": ["s3", "0", "L"],
+                "1": ["s3", "1", "L"],
+                "B": ["sh", "B", "R"]
+            }
+        }
         let m = new Machine(tape, head, rules);
         m.runStatus = true;
         console.log(`runState: ${m.runStatus}`);
         m.run();
-        console.log("equal?: ", "L" == "L");
+        // console.log("equal?: ", "L" == "L");
         const check = () => {
             console.log(m.status);
         }
