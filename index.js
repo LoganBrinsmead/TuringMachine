@@ -82,7 +82,7 @@ class Machine {
     get state() {
         return this.head.state;
     }
-    set status(runState){
+    setRunState(runState){
 
         this.runStatus = runState;
 
@@ -171,9 +171,19 @@ class Machine {
 
     run( ){
         while( this.stepRules() && this.runStatus){
+            console.log("Current State is: ")
+            console.log(this.head.state);
             this.step();      
         
         }
+        console.log("Final State");
+        console.log(this.head.state);
+        console.log(this.head.idx);
+        
+        console.log(this.runStatus);
+        console.log(this.stepRules());
+        console.log(this.rules[this.head.state]);
+        //console.log(this.rules[this.head.state][this.tape.tape[this.head.idx]])
     }
 
     // run machine at half speed
@@ -231,10 +241,21 @@ $(document).ready(function () {
             }
         }`
 
-        curRules = JSON.parse(curRules);
-        rules = Object.assign({}, rules, curRules);
+       // curRules = JSON.parse(curRules);
+        //rules = Object.assign({}, rules, curRules);
+        for (const key in rules) {
+            if (isObject(curRules[key])) {
+              if (!rules[key]) Object.assign(rules, { [key]: {} });
+              mergeDeep(rules[key], curRules[key]);
+            } else {
+              Object.assign(rules, { [key]: curRules[key] });
+            }
+          }
         console.log(rules);
     }
+    function isObject(item) {
+        return (item && typeof item === 'object' && !Array.isArray(item));
+      }
 
     // This is the function that binds to the reset button
     // TODO: I am adding the functionality for display without any testing
@@ -243,12 +264,14 @@ $(document).ready(function () {
 
     }
 
-    let tape = new Tape("1001001");
-    let head = new Head("s1 0");
+    //$("#StringInput").val()
+    let tape = new Tape("10010001");
+    let head = new Head("0 0");
 
     $("#RunButton").on("click", function() {
         parseProgram();
         let m = new Machine(tape, head, rules);
+        m.setRunState(true);
         m.run();
     
         
@@ -256,6 +279,6 @@ $(document).ready(function () {
     // $("#StepButton").on("click", oneStep);
     $("#PauseButton").on("click", function (){
         $("#PauseButton").prop("disabled", true);
-        m.status(false);
+        m.setRunState(false);
     });
 });
