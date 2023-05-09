@@ -1,13 +1,22 @@
 // a class for the Machine Tape
 class Tape {
     constructor(string) {
-        this.tape = parse(string);
+        console.log(typeof(string))
+        this.tape = Tape.parse(string);
     }
 
     // get the tape
-    get tape() {
-        return this.tape.join("");
+    get status() {
+        return this.tape.join();
     }
+
+    // setter for tape
+    // set tape(string) {
+    //     console.log(typeof(string))
+
+    //     this.tape = Tape.parse(string.join()); 
+    // }
+
     //lets us push a blank symbol to the back of the array
     extendRight() {
 
@@ -24,7 +33,8 @@ class Tape {
     }
     //takes the string splits it by character, making it a lot easier to work with
     static parse(string) {
-        return string.split("");
+        console.log(typeof(string), string)
+        return string.split(" ");
     }
 
 }
@@ -36,7 +46,7 @@ class Head {
     // input argument is a string
     // example: string === "s1 0"
     constructor(input) {
-        let splitInput = splitInput(input);
+        let splitInput = Head.splitInput(input);
         this.state = splitInput[0];//state
         this.idx = splitInput[1];//currIdx
     }
@@ -52,6 +62,7 @@ class Head {
 
     // parses the input and splits it for every space
     static splitInput(input) {
+        console.log(input, typeof(input))
         return input.split(" ");
     }
 }
@@ -156,7 +167,7 @@ class Machine {
      */
 
     run( ){
-        while( stepRules() && this.runStatus){
+        while( this.stepRules() && this.runStatus){
             this.step();      
         
         }
@@ -222,13 +233,24 @@ $(document).ready(function () {
         console.log(rules);
     }
 
-    let tape = new Tape;
-    let head = new Head;
-    let m = new Machine(tape, head, rules);
-    m.run();
+    // This is the function that binds to the reset button
+    // TODO: I am adding the functionality for display without any testing
+    // TODO: Need to add functionality for the actual machine logic
+    function resetButton() {
 
-    $("#RunButton").on("click", parseProgram);
-    $("#StepButton").on("click", oneStep);
+    }
+
+    let tape = new Tape("1001001");
+    let head = new Head("s1 0");
+
+    $("#RunButton").on("click", function() {
+        parseProgram();
+        let m = new Machine(tape, head, rules);
+        m.run();
+    
+        
+    });
+    // $("#StepButton").on("click", oneStep);
     $("#PauseButton").on("click", function (){
         $("#PauseButton").prop("disabled", true);
         m.status(false);
