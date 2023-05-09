@@ -68,6 +68,9 @@ class Machine {
     get status() {
         return this.tape.tape + " " +  this.head.currentHead;
     }
+    get state() {
+        return this.head.state;
+    }
     set status(runState){
 
         this.runStatus = runState;
@@ -222,11 +225,20 @@ $(document).ready(function () {
         console.log(rules);
     }
 
-    let tape = new Tape;
-    let head = new Head;
+    //ask Logan about this
+    //created a ID for the tape in HTML
+    //so it becomes easier to work with
+    let tape = new Tape($("#StringInput").val());
+    //creating a string for the head, instead of accepting user input
+    //default head state will be state s1, or the first state, and
+    //default index for the head will be index 0
+    let headString = "s1 0"
+    let head = new Head(headString);
     let m = new Machine(tape, head, rules);
     m.run();
 
+    //pause in disabled by default, once run is clicked on
+    // all other buttons become disabled except for pause
     $("#RunButton").on("click", parseProgram);
     $("#StepButton").on("click", oneStep);
     $("#PauseButton").on("click", function (){
