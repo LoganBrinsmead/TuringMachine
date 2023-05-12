@@ -73,7 +73,7 @@ class Machine {
         this.tape = tape;
         this.head = head;
         this.rules = rules;
-        this.runStatus = false;
+        this._runStatus = true;
     }
 
     get status() {
@@ -114,22 +114,22 @@ class Machine {
      */
 
     stepRules() {
+        let ruleExist = false;
+        //console.log(`thsi is head state ${this.head.state}`);
+        // if ((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) ||("*" in this.rules)) {
 
-        console.log(`thsi is head state ${this.head.state}`);
-        if ((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) || ("*" in this.rules[this.head.state])) {
-
-            return true;
-        }//else{
+        //     return true;
+        // }//else{
         //     console.log("testing 123...")
-        //     for(const e in this.rules[this.head.state]){
-        //         console.log(e);
-        //         if(e === "*"){
-        //             return true;
-        //         }
-        //     }
+            for(const e in this.rules[this.head.state]){
+                console.log(e);
+                if((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) || (e === "*")){
+                    ruleExist = true;
+                }
+            }
         // }
 
-        return false;
+        return ruleExist;
     }
 
 
@@ -180,19 +180,11 @@ class Machine {
             }
         }
 
-        // if (this.rules[this.head.state][this.tape.tape[this.head.idx]][1] === "*") {
-        //     //if the new state is "*" then we keep the current symbol
-        //     writeSymbol = this.tape.tape[this.head.idx];
-        // } else {
-           
-            
-        // }
-
-        console.log(`thsi is write symbol ${writeSymbol}`);
+       // console.log(`thsi is write symbol ${writeSymbol}`);
         this.tape.updateCell(this.head.idx, writeSymbol);
         this.head.state = newState;
         this.moveHead(direction);
-        console.log(this.status);
+        
         
 
 
@@ -217,19 +209,20 @@ class Machine {
     run() {
         while (this.stepRules()) {
            // console.log(this.status);
-            console.log(this.tape.tape[this.head.idx]);
+            console.log(this.status);
             this.step();
             
         }
-        console.log("Final State");
+        console.log("Final tape condition and final state");
         console.log(this.status);
-        console.log(this.head.idx);
+        console.log(this.head.state);
         
         
-        console.log(this.stepRules());
-        console.log(this.rules[this.head.state]);
+        
+        //console.log(this.stepRules());
+        //console.log(this.rules[this.head.state]);
        // console.log(this.rules[this.head.state][this.tape.tape[this.head.idx]]);
-       console.log(this.tape.tape[this.head.idx]);
+      // console.log(this.tape.tape[this.head.idx]);
     }
 
     // run machine at half speed
