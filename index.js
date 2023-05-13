@@ -4,10 +4,9 @@ class Tape {
         console.log(typeof (string))
         this.tape = Tape.parse(string);
     }
-
     // get the tape
     get status() {
-        return this.tape.join(" ");
+        return this.tape.join("");
     }
 
     // setter for tape
@@ -20,11 +19,11 @@ class Tape {
     //lets us push a blank symbol to the back of the array
     extendRight() {
 
-        this.tape.push("B");
+        this.tape.push("_");
     }
     //lets us push a blank symbol to the front of the array
     extendLeft() {
-        this.tape.unshift("B");
+        this.tape.unshift("_");
     }
 
     // write a cell of the tape
@@ -34,7 +33,7 @@ class Tape {
     //takes the string splits it by character, making it a lot easier to work with
     static parse(string) {
         console.log(typeof (string), string)
-        return string.split(" ");
+        return string.split("");
     }
 
 }
@@ -47,8 +46,9 @@ class Head {
     // example: string === "s1 0"
     constructor(input) {
         let splitInput = Head.splitInput(input);
-        this.state = splitInput[0];//state
-        this.idx = splitInput[1];//currIdx
+        let state = splitInput[0];//state
+        let idx = parseInt(splitInput[1]);//currIdx
+        this.updateHeadInfo(state, idx);
     }
 
     get currentHead() {
@@ -73,7 +73,7 @@ class Machine {
         this.tape = tape;
         this.head = head;
         this.rules = rules;
-        this.runStatus = false;
+        this._runStatus = true;
     }
 
     get status() {
@@ -97,12 +97,12 @@ class Machine {
             this.tape.extendRight();
             this.head.idx += 1;
 
-        } else if (direction == "L") {
+        } else if (direction == "L" || direction == "l") {
             this.head.idx -= 1;
-        } else if (direction == "R") {
+        } else if (direction == "R" || direction == "r") {
             this.head.idx += 1;
         }
-        //else input is "*" and we do not move the head
+        
 
 
     }
@@ -114,13 +114,22 @@ class Machine {
      */
 
     stepRules() {
+        let ruleExist = false;
+        //console.log(`thsi is head state ${this.head.state}`);
+        // if ((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) ||("*" in this.rules)) {
 
-        if (this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) {
+        //     return true;
+        // }//else{
+        //     console.log("testing 123...")
+            for(const e in this.rules[this.head.state]){
+                console.log(e);
+                if((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) || (e === "*")){
+                    ruleExist = true;
+                }
+            }
+        // }
 
-            return this.rules[this.head.state][this.tape.tape[this.head.idx]];
-        }
-
-        return false;
+        return ruleExist;
     }
 
 
@@ -128,25 +137,55 @@ class Machine {
 
         let newState;
         let writeSymbol;
-        if (this.rules[this.head.state][this.tape.tape[this.head.idx]][0] == "*") {
-            //if the new state is "*" then we keep the current state
-            newState = this.head.state;
-        } else {
+        let direction;
+        //console.log(this.rules[this.head.state]);
+        
+        //this.rules[this.head.state][this.tape.tape[this.head.idx]][0] !== "*")
+        if (this.rules[this.head.state][this.tape.tape[this.head.idx]] != null) {
+            if(this.rules[this.head.state][this.tape.tape[this.head.idx]][0] === "*"){
+                newState = this.head.state;
+            }else{
             newState = this.rules[this.head.state][this.tape.tape[this.head.idx]][0];
-        }
+            }
+            if(this.rules[this.head.state][this.tape.tape[this.head.idx]][1] === "*"){
+                writeSymbol = this.tape.tape[this.head.idx];
 
-        if (this.rules[this.head.state][this.tape.tape[this.head.idx]][1] == "*") {
-            //if the new state is "*" then we keep the current symbol
-            writeSymbol = this.tape.tape[this.head.idx];
-        } else {
+            }else {
             writeSymbol = this.rules[this.head.state][this.tape.tape[this.head.idx]][1];
+            }
+            direction = this.rules[this.head.state][this.tape.tape[this.head.idx]][2];
+           
+        } else {
+            //this is in case the only state we have to make a move on is *
+            for(const e in this.rules[this.head.state]){
+                if(e === "*" && !(this.rules[this.head.state][this.tape.tape[this.head.idx]] in this.rules[this.head.state])){
+
+                    if(this.rules[this.head.state][e][0] === "*"){
+                        newState = this.head.state;
+                    }else{
+                    newState = this.rules[this.head.state][e][0];
+                    }
+                    if(this.rules[this.head.state][e][1] === "*"){
+                        
+                        writeSymbol = this.tape.tape[this.head.idx];
+                        //console.log(`thsi is the write symbol ${writeSymbol}`);
+        
+                    }else {
+                        writeSymbol = this.rules[this.head.state][e][1];
+                        //console.log(`thsi is write symbol ${writeSymbol}`);
+                    }
+                    
+                    direction = this.rules[this.head.state][e][2];
+                }
+            }
         }
 
-        let direction = this.rules[this.head.state][this.tape.tape[this.head.idx]][2];
-
-        this.tape.updateCell(this.head.location, writeSymbol);
+       // console.log(`thsi is write symbol ${writeSymbol}`);
+        this.tape.updateCell(this.head.idx, writeSymbol);
         this.head.state = newState;
         this.moveHead(direction);
+        
+        
 
 
     }
@@ -169,9 +208,21 @@ class Machine {
 
     run() {
         while (this.stepRules()) {
-            this.step();
+           // console.log(this.status);
             console.log(this.status);
+            this.step();
+            
         }
+        console.log("Final tape condition and final state");
+        console.log(this.status);
+        console.log(this.head.state);
+        
+        
+        
+        //console.log(this.stepRules());
+        //console.log(this.rules[this.head.state]);
+       // console.log(this.rules[this.head.state][this.tape.tape[this.head.idx]]);
+      // console.log(this.tape.tape[this.head.idx]);
     }
 
     // run machine at half speed
@@ -246,7 +297,7 @@ $(document).ready(function () {
 
         let curRules = `{
             "${directive[0]}": {
-                "${directive[1]}": ["${directive[2]}", "${directive[4]}", "${directive[3]}"]
+                "${directive[1]}": ["${directive[4]}", "${directive[2]}", "${directive[3]}"]
             }
         }`
 
@@ -254,6 +305,9 @@ $(document).ready(function () {
         rules = mergeObjects(curRules, rules);
         console.log(rules);
     }
+    function isObject(item) {
+        return (item && typeof item === 'object' && !Array.isArray(item));
+      }
 
     // This is the function that binds to the reset button
     // TODO: I am adding the functionality for display without any testing
@@ -262,37 +316,24 @@ $(document).ready(function () {
 
     }
 
-    let tape = new Tape("1 0 1 0 1 B 1 1 1 0 0");
-    let head = new Head("s1 0");
+    //$("#StringInput").val()
+    let tape = new Tape("1001001");
+    let head = new Head("0 0");
 
     $("#RunButton").on("click", function (e) {
         parseProgram();
-        rules = {
-            "s1": {
-                "0": ["s1", "0", "R"],
-                "1": ["s1", "1", "R"],
-                "B": ["s2", "B", "L"]
-            },
-            "s2": {
-                "0": ["s3", "1", "L"],
-                "1": ["s2", "0", "L"],
-                "B": ["s3", "1", "L"]
-            },
-            "s3": {
-                "0": ["s3", "0", "L"],
-                "1": ["s3", "1", "L"],
-                "B": ["sh", "B", "R"]
-            }
-        }
+       
+       
+        
         let m = new Machine(tape, head, rules);
         m.runStatus = true;
         console.log(`runState: ${m.runStatus}`);
         m.run();
         // console.log("equal?: ", "L" == "L");
-        const check = () => {
-            console.log(m.status);
-        }
-        setTimeout(check, 100);
+        // const check = () => {
+        //     console.log(m.status);
+        // }
+        // setTimeout(check, 100);
         // console.log(head.currentHead);
         // console.log(m.status);
         e.preventDefault();
@@ -300,6 +341,6 @@ $(document).ready(function () {
     // $("#StepButton").on("click", oneStep);
     $("#PauseButton").on("click", function () {
         $("#PauseButton").prop("disabled", true);
-        m.status(false);
+        m.setRunState(false);
     });
 });
