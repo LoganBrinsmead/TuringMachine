@@ -185,7 +185,9 @@ class Machine {
         this.head.state = newState;
         this.moveHead(direction);
         
-        
+        while(this.head.idx < 0) {
+            this.moveHead("r");
+        }
 
 
     }
@@ -208,7 +210,6 @@ class Machine {
 
     run() {
         while (this.stepRules()) {
-           // console.log(this.status);
             console.log(this.status);
             this.step();
             
@@ -216,6 +217,7 @@ class Machine {
         console.log("Final tape condition and final state");
         console.log(this.status);
         console.log(this.head.state);
+        console.log(this.tape.tape[this.head.idx])
         
         
         
@@ -317,14 +319,33 @@ $(document).ready(function () {
     }
 
     //$("#StringInput").val()
-    let tape = new Tape("1001001");
     let head = new Head("0 0");
 
     $("#RunButton").on("click", function (e) {
+        rules = {};
         parseProgram();
        
+        // rules = {
+        //     "s1": {
+        //         "0": ["s1", "0", "R"],
+        //         "1": ["s1", "1", "R"],
+        //         "B": ["s2", "B", "L"]
+        //     },
+        //     "s2": {
+        //         "0": ["s3", "1", "L"],
+        //         "1": ["s2", "0", "L"],
+        //         "B": ["s3", "1", "L"]
+        //     },
+        //     "s3": {
+        //         "0": ["s3", "0", "L"],
+        //         "1": ["s3", "1", "L"],
+        //         "B": ["sh", "B", "R"]
+        //     }
+        // };
        
+        let tape = new Tape("110110 101011");
         
+
         let m = new Machine(tape, head, rules);
         m.runStatus = true;
         console.log(`runState: ${m.runStatus}`);
