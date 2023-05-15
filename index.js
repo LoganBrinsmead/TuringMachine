@@ -115,23 +115,20 @@ $(document).ready(function () {
 
 
         moveHead(direction) {
-            if (this.head.idx == 0 && (direction == "L" || direction == "l")) {
+            if (this.head.idx == 0 && (direction.toLowerCase() == "l")) {
                 this.tape.extendLeft();
-                this.head.idx -= 1;
+                // this.head.idx -= 1;
 
             }
-            else if (this.head.idx == this.tape.tape.length - 1 && (direction == "R" || direction == "r")) {
+            else if (this.head.idx == this.tape.tape.length - 1 && (direction.toLowerCase() == "r")) {
                 this.tape.extendRight();
                 this.head.idx += 1;
 
-            } else if (direction == "L" || direction == "l") {
+            } else if (direction.toLowerCase() == "l") {
                 this.head.idx -= 1;
-            } else if (direction == "R" || direction == "r") {
+            } else if (direction.toLowerCase() == "r") {
                 this.head.idx += 1;
             }
-
-
-
         }
 
         /**
@@ -139,22 +136,14 @@ $(document).ready(function () {
          * and input
          * else it returns false
          */
-
         stepRules() {
             let ruleExist = false;
-            //console.log(`thsi is head state ${this.head.state}`);
-            // if ((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) ||("*" in this.rules)) {
-
-            //     return true;
-            // }//else{
-            //     console.log("testing 123...")
             for (const e in this.rules[this.head.state]) {
                 console.log(e);
                 if ((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) || (e === "*")) {
                     ruleExist = true;
                 }
             }
-            // }
 
             return ruleExist;
         }
@@ -210,15 +199,9 @@ $(document).ready(function () {
                 }
             }
 
-            // console.log(`thsi is write symbol ${writeSymbol}`);
             this.tape.updateCell(this.head.idx, writeSymbol);
             this.head.state = newState;
             this.moveHead(direction);
-
-            // while (this.head.idx < 0) {
-            //     this.moveHead("r");
-            // }
-
 
         }
         /**
@@ -230,13 +213,6 @@ $(document).ready(function () {
                 this.step();
             }
         }
-        /**
-         * have a boolean variable runTrue
-         * pass it to setter
-         * check to see if it is true
-         * and if it is false 
-         * 
-         */
 
         run() {
             while (this.stepRules()) {
@@ -253,15 +229,8 @@ $(document).ready(function () {
             console.log(this.head.state);
             console.log(this.tape.tape[this.head.idx])
 
-
-
-            //console.log(this.stepRules());
-            //console.log(this.rules[this.head.state]);
-            // console.log(this.rules[this.head.state][this.tape.tape[this.head.idx]]);
-            // console.log(this.tape.tape[this.head.idx]);
         }
 
-        // run machine at half speed
         halfSpeedRun() {
             setInterval(run, 1000);
         }
@@ -340,19 +309,6 @@ $(document).ready(function () {
         rules = mergeObjects(curRules, rules);
         console.log(rules);
     }
-    function isObject(item) {
-        return (item && typeof item === 'object' && !Array.isArray(item));
-    }
-
-    // This is the function that binds to the reset button
-    // TODO: I am adding the functionality for display without any testing
-    // TODO: Need to add functionality for the actual machine logic
-    function resetButton() {
-
-    }
-
-    //$("#StringInput").val()
-    let head = new Head("0 0");
 
     let activeTapeArea = $(`<div id="ActiveTapeArea"></div>`);
     let activeTape = $(`<pre id="ActiveTapeArea" class="tape"></pre>`);
@@ -391,38 +347,19 @@ $(document).ready(function () {
         rules = {};
         parseProgram();
 
-        // rules = {
-        //     "s1": {
-        //         "0": ["s1", "0", "R"],
-        //         "1": ["s1", "1", "R"],
-        //         "B": ["s2", "B", "L"]
-        //     },
-        //     "s2": {
-        //         "0": ["s3", "1", "L"],
-        //         "1": ["s2", "0", "L"],
-        //         "B": ["s3", "1", "L"]
-        //     },
-        //     "s3": {
-        //         "0": ["s3", "0", "L"],
-        //         "1": ["s3", "1", "L"],
-        //         "B": ["sh", "B", "R"]
-        //     }
-        // };
+        // get the input tape
+        let inputString = $("#StringInput").val();
+        inputString = inputString.split(" ").join("_");
 
-        let tape = new Tape("1001001");
+
+        let tape = new Tape(inputString);
+        let head = new Head("0 0");
 
 
         let m = new Machine(tape, head, rules);
         m.runStatus = true;
         console.log(`runState: ${m.runStatus}`);
         m.run();
-        // console.log("equal?: ", "L" == "L");
-        // const check = () => {
-        //     console.log(m.status);
-        // }
-        // setTimeout(check, 100);
-        // console.log(head.currentHead);
-        // console.log(m.status);
         e.preventDefault();
     });
     // $("#StepButton").on("click", oneStep);
