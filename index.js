@@ -152,7 +152,7 @@ $(document).ready(function () {
         step() {
 
             // increment the number of steps
-            this.numSteps = this.numSteps+=1;
+            this.numSteps = this.numSteps += 1;
 
             let newState;
             let writeSymbol;
@@ -310,26 +310,31 @@ $(document).ready(function () {
         console.log(rules);
     }
 
-    let activeTapeArea = $(`<div id="ActiveTapeArea"></div>`);
-    let activeTape = $(`<pre id="ActiveTapeArea" class="tape"></pre>`);
-    let machineHead = $(`<div id="MachineHead"></div>`);
-    let headTop = $(`<div class="HeadTop"></div>`);
-    let headBody = $(`<div class="HeadBody">Head</div>`);
+    let activeTapeArea =
+        `<pre id="ActiveTape" class="tape">1</pre>` +
+        `<div id="MachineHead">` +
+            `<div class="HeadTop"></div>` +
+            `<div class="HeadBody">Head</div>` +
+        `</div>`;
+
 
     $(machineHead).append($(headTop));
     $(machineHead).append($(headBody));
 
-    activeTapeArea.append($(activeTape));
-    activeTapeArea.append($(machineHead));
+    $(activeTapeArea).append($(activeTape));
+    $(activeTapeArea).append($(machineHead));
 
     let leftTape = $(`<pre id="leftTape" class="tape"></pre>`);
     let rightTape = $(`<pre id="RightTape" class="tape">0010001</pre>`);
 
     let tapeValues = $("#TapeValues");
 
-    // function to change active state in the tape on the frontend
-    function changeActiveArea(indexOfHeadPosition) {
 
+    // function to change active state in the tape on the frontend
+    function changeActiveArea(indexOfHeadPosition, tape) {
+        tape = tape.replace('_', '');
+        
+        let leftTapeText;
     }
 
     // function to change the number of steps on the frontend
