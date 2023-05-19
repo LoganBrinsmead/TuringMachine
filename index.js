@@ -214,7 +214,7 @@ $(document).ready(function () {
             }
         }
 
-        run() {
+        async run() {
             while (this.stepRules()) {
                 console.log(this.status);
                 this.step();
@@ -222,13 +222,14 @@ $(document).ready(function () {
                 // changing the current state on frontend
                 changeCurState(this.head.state);
                 changeCurSteps(this.numSteps);
+                changeActiveArea(this.head.idx, this.tape.tape);
 
             }
             console.log("Final tape condition and final state");
             console.log(this.status);
             console.log(this.head.state);
             console.log(this.tape.tape[this.head.idx])
-
+            await new Promise(r => setTimeout(r, 2000));
         }
 
         halfSpeedRun() {
@@ -311,30 +312,54 @@ $(document).ready(function () {
     }
 
     let activeTapeArea =
-        `<pre id="ActiveTape" class="tape">1</pre>` +
+        `<pre id="ActiveTape" class="tape"></pre>` +
         `<div id="MachineHead">` +
             `<div class="HeadTop"></div>` +
             `<div class="HeadBody">Head</div>` +
         `</div>`;
 
 
-    $(machineHead).append($(headTop));
-    $(machineHead).append($(headBody));
+    // $(machineHead).append($(headTop));
+    // $(machineHead).append($(headBody));
 
-    $(activeTapeArea).append($(activeTape));
-    $(activeTapeArea).append($(machineHead));
+    // $(activeTapeArea).append($(activeTape));
+    // $(activeTapeArea).append($(machineHead));
 
-    let leftTape = $(`<pre id="leftTape" class="tape"></pre>`);
-    let rightTape = $(`<pre id="RightTape" class="tape">0010001</pre>`);
+    // let leftTape = $(`<pre id="leftTape" class="tape"></pre>`);
+    // let rightTape = $(`<pre id="RightTape" class="tape"></pre>`);
+
+    let leftTape = $("#leftTape");
+    let rightTape = $("#RightTape");
 
     let tapeValues = $("#TapeValues");
+
+    $("#ActiveTapeArea").append($(activeTapeArea));
 
 
     // function to change active state in the tape on the frontend
     function changeActiveArea(indexOfHeadPosition, tape) {
-        tape = tape.replace('_', '');
+        tape = tape.join("");
+        // tape = tape.replace('_', '');
         
-        let leftTapeText;
+        let leftTapeText ='';
+        let rightTapeText = '';
+
+        for(let i = indexOfHeadPosition - 1; i >= 0; i--) {
+            leftTapeText += tape[i];
+        }
+        console.log("SJAHDKASJHDASKJDHASDKJHASDJKASHDKASHJD", typeof(leftTapeText), leftTapeText)
+        leftTapeText.split("").reverse().join("");
+
+        for(let i = indexOfHeadPosition + 1; i < tape.length; i++) {
+            rightTapeText += tape[i];
+        }
+
+        activeChar = tape[indexOfHeadPosition];
+        
+        leftTape.text(leftTapeText);
+        rightTape.text(rightTapeText);
+
+        $("#ActiveTape").text(activeChar);
     }
 
     // function to change the number of steps on the frontend
