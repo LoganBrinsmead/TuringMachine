@@ -74,7 +74,6 @@ class Machine {
         this.head = head;
         this.rules = rules;
         this._runStatus = true;
-        this.steps = 0;
     }
 
     get status() {
@@ -182,27 +181,18 @@ class Machine {
     oneStep() {
         if (this.stepRules()) {
             this.step();
-            this.steps++;
+            
         }
     }
 
     run() {
         while (this.stepRules()) {
-            console.log(this.status);
             this.step();
-            this.steps++;
-            $("#MachineCurrentStep").text(this.steps);
-            $("#MachineCurrentState").text(this.head.state);
-            
-            
+           
         }
         console.log("Final tape condition and final state");
         console.log(this.status);
         console.log(this.head.state);
-        console.log(this.steps);
-        
-        $("#MachineCurrentStep").text(this.steps);
-        $("#MachineCurrentState").text(this.head.state);
     
     }
 
