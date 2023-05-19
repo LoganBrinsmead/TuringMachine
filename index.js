@@ -74,6 +74,7 @@ class Machine {
         this.head = head;
         this.rules = rules;
         this._runStatus = true;
+        this.steps = 0;
     }
 
     get status() {
@@ -115,20 +116,12 @@ class Machine {
 
     stepRules() {
         let ruleExist = false;
-        //console.log(`thsi is head state ${this.head.state}`);
-        // if ((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) ||("*" in this.rules)) {
-
-        //     return true;
-        // }//else{
-        //     console.log("testing 123...")
-            for(const e in this.rules[this.head.state]){
-                console.log(e);
-                if((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) || (e === "*")){
-                    ruleExist = true;
-                }
+        for(const state in this.rules[this.head.state]){
+            
+            if((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) || (state === "*")){
+                ruleExist = true;
             }
-        // }
-
+        }
         return ruleExist;
     }
 
@@ -138,9 +131,7 @@ class Machine {
         let newState;
         let writeSymbol;
         let direction;
-        //console.log(this.rules[this.head.state]);
-        
-        //this.rules[this.head.state][this.tape.tape[this.head.idx]][0] !== "*")
+       
         if (this.rules[this.head.state][this.tape.tape[this.head.idx]] != null) {
             if(this.rules[this.head.state][this.tape.tape[this.head.idx]][0] === "*"){
                 newState = this.head.state;
@@ -157,36 +148,31 @@ class Machine {
            
         } else {
             //this is in case the only state we have to make a move on is *
-            for(const e in this.rules[this.head.state]){
-                if(e === "*" && !(this.rules[this.head.state][this.tape.tape[this.head.idx]] in this.rules[this.head.state])){
+            for(const state in this.rules[this.head.state]){
+                if(state === "*" && !(this.rules[this.head.state][this.tape.tape[this.head.idx]] in this.rules[this.head.state])){
 
-                    if(this.rules[this.head.state][e][0] === "*"){
+                    if(this.rules[this.head.state][state][0] === "*"){
                         newState = this.head.state;
                     }else{
-                    newState = this.rules[this.head.state][e][0];
+                        newState = this.rules[this.head.state][state][0];
                     }
-                    if(this.rules[this.head.state][e][1] === "*"){
+                    if(this.rules[this.head.state][state][1] === "*"){
                         
                         writeSymbol = this.tape.tape[this.head.idx];
-                        //console.log(`thsi is the write symbol ${writeSymbol}`);
         
                     }else {
-                        writeSymbol = this.rules[this.head.state][e][1];
-                        //console.log(`thsi is write symbol ${writeSymbol}`);
+                        writeSymbol = this.rules[this.head.state][state][1];
                     }
                     
-                    direction = this.rules[this.head.state][e][2];
+                    direction = this.rules[this.head.state][state][2];
                 }
             }
         }
 
-       // console.log(`thsi is write symbol ${writeSymbol}`);
         this.tape.updateCell(this.head.idx, writeSymbol);
         this.head.state = newState;
         this.moveHead(direction);
         
-        
-
 
     }
     /**
@@ -196,33 +182,28 @@ class Machine {
     oneStep() {
         if (this.stepRules()) {
             this.step();
+            this.steps++;
         }
     }
-    /**
-     * have a boolean variable runTrue
-     * pass it to setter
-     * check to see if it is true
-     * and if it is false 
-     * 
-     */
 
     run() {
         while (this.stepRules()) {
-           // console.log(this.status);
             console.log(this.status);
             this.step();
+            this.steps++;
+            $("#MachineCurrentStep").text(this.steps);
+            $("#MachineCurrentState").text(this.head.state);
+            
             
         }
         console.log("Final tape condition and final state");
         console.log(this.status);
         console.log(this.head.state);
+        console.log(this.steps);
         
-        
-        
-        //console.log(this.stepRules());
-        //console.log(this.rules[this.head.state]);
-       // console.log(this.rules[this.head.state][this.tape.tape[this.head.idx]]);
-      // console.log(this.tape.tape[this.head.idx]);
+        $("#MachineCurrentStep").text(this.steps);
+        $("#MachineCurrentState").text(this.head.state);
+    
     }
 
     // run machine at half speed
@@ -317,17 +298,18 @@ $(document).ready(function () {
     }
 
     //$("#StringInput").val()
-    let tape = new Tape("1001001");
+    
+    
+    
     let head = new Head("0 0");
 
     $("#RunButton").on("click", function (e) {
         parseProgram();
        
-       
-        
+        let tape = new Tape($("#StringInput").val()); 
         let m = new Machine(tape, head, rules);
-        m.runStatus = true;
-        console.log(`runState: ${m.runStatus}`);
+        //m.runStatus = true;
+       // console.log(`runState: ${m.runStatus}`);
         m.run();
         // console.log("equal?: ", "L" == "L");
         // const check = () => {
@@ -338,9 +320,10 @@ $(document).ready(function () {
         // console.log(m.status);
         e.preventDefault();
     });
+ 
     // $("#StepButton").on("click", oneStep);
     $("#PauseButton").on("click", function () {
         $("#PauseButton").prop("disabled", true);
-        m.setRunState(false);
+       // m.setRunState(false);
     });
 });
