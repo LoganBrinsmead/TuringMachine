@@ -4,6 +4,12 @@ $(document).ready(function () {
     class Tape {
         constructor(string) {
             console.log(typeof (string))
+            
+            if(string === ""){
+                console.log(string);
+                string = "_"
+            }
+            console.log(string);
             this.tape = Tape.parse(string);
         }
         // get the tape
@@ -156,9 +162,7 @@ $(document).ready(function () {
             let newState;
             let writeSymbol;
             let direction;
-            //console.log(this.rules[this.head.state]);
-
-            //this.rules[this.head.state][this.tape.tape[this.head.idx]][0] !== "*")
+            
             if (this.rules[this.head.state][this.tape.tape[this.head.idx]] != null) {
                 if (this.rules[this.head.state][this.tape.tape[this.head.idx]][0] === "*") {
                     newState = this.head.state;
@@ -175,25 +179,23 @@ $(document).ready(function () {
 
             } else {
                 //this is in case the only state we have to make a move on is *
-                for (const e in this.rules[this.head.state]) {
-                    if (e === "*" && !(this.rules[this.head.state][this.tape.tape[this.head.idx]] in this.rules[this.head.state])) {
+                for (const state in this.rules[this.head.state]) {
+                    if (state === "*" && !(this.rules[this.head.state][this.tape.tape[this.head.idx]] in this.rules[this.head.state])) {
 
-                        if (this.rules[this.head.state][e][0] === "*") {
+                        if (this.rules[this.head.state][state][0] === "*") {
                             newState = this.head.state;
                         } else {
-                            newState = this.rules[this.head.state][e][0];
+                            newState = this.rules[this.head.state][state][0];
                         }
-                        if (this.rules[this.head.state][e][1] === "*") {
-
+                        if (this.rules[this.head.state][state][1] === "*") {
                             writeSymbol = this.tape.tape[this.head.idx];
-                            //console.log(`thsi is the write symbol ${writeSymbol}`);
 
                         } else {
-                            writeSymbol = this.rules[this.head.state][e][1];
-                            //console.log(`thsi is write symbol ${writeSymbol}`);
+                            writeSymbol = this.rules[this.head.state][state][1];
+                            
                         }
 
-                        direction = this.rules[this.head.state][e][2];
+                        direction = this.rules[this.head.state][state][2];
                     }
                 }
             }
