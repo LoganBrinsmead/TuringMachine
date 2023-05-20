@@ -4,6 +4,12 @@ $(document).ready(function () {
     class Tape {
         constructor(string) {
             console.log(typeof (string))
+            
+            if(string === ""){
+                console.log(string);
+                string = "_"
+            }
+            console.log(string);
             this.tape = Tape.parse(string);
         }
         // get the tape
@@ -117,7 +123,6 @@ $(document).ready(function () {
         moveHead(direction) {
             if (this.head.idx == 0 && (direction.toLowerCase() == "l")) {
                 this.tape.extendLeft();
-                // this.head.idx -= 1;
 
             }
             else if (this.head.idx == this.tape.tape.length - 1 && (direction.toLowerCase() == "r")) {
@@ -138,9 +143,9 @@ $(document).ready(function () {
          */
         stepRules() {
             let ruleExist = false;
-            for (const e in this.rules[this.head.state]) {
-                console.log(e);
-                if ((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) || (e === "*")) {
+            for (const state in this.rules[this.head.state]) {
+               
+                if ((this.rules[this.head.state] && this.rules[this.head.state][this.tape.tape[this.head.idx]]) || (state === "*")) {
                     ruleExist = true;
                 }
             }
@@ -157,9 +162,7 @@ $(document).ready(function () {
             let newState;
             let writeSymbol;
             let direction;
-            //console.log(this.rules[this.head.state]);
-
-            //this.rules[this.head.state][this.tape.tape[this.head.idx]][0] !== "*")
+            
             if (this.rules[this.head.state][this.tape.tape[this.head.idx]] != null) {
                 if (this.rules[this.head.state][this.tape.tape[this.head.idx]][0] === "*") {
                     newState = this.head.state;
@@ -176,25 +179,23 @@ $(document).ready(function () {
 
             } else {
                 //this is in case the only state we have to make a move on is *
-                for (const e in this.rules[this.head.state]) {
-                    if (e === "*" && !(this.rules[this.head.state][this.tape.tape[this.head.idx]] in this.rules[this.head.state])) {
+                for (const state in this.rules[this.head.state]) {
+                    if (state === "*" && !(this.rules[this.head.state][this.tape.tape[this.head.idx]] in this.rules[this.head.state])) {
 
-                        if (this.rules[this.head.state][e][0] === "*") {
+                        if (this.rules[this.head.state][state][0] === "*") {
                             newState = this.head.state;
                         } else {
-                            newState = this.rules[this.head.state][e][0];
+                            newState = this.rules[this.head.state][state][0];
                         }
-                        if (this.rules[this.head.state][e][1] === "*") {
-
+                        if (this.rules[this.head.state][state][1] === "*") {
                             writeSymbol = this.tape.tape[this.head.idx];
-                            //console.log(`thsi is the write symbol ${writeSymbol}`);
 
                         } else {
-                            writeSymbol = this.rules[this.head.state][e][1];
-                            //console.log(`thsi is write symbol ${writeSymbol}`);
+                            writeSymbol = this.rules[this.head.state][state][1];
+                            
                         }
 
-                        direction = this.rules[this.head.state][e][2];
+                        direction = this.rules[this.head.state][state][2];
                     }
                 }
             }
@@ -350,12 +351,14 @@ $(document).ready(function () {
         console.log("SJAHDKASJHDASKJDHASDKJHASDJKASHDKASHJD", typeof(leftTapeText), leftTapeText)
         leftTapeText.split("").reverse().join("");
 
-        for(let i = indexOfHeadPosition + 1; i < tape.length; i++) {
+        for(let i = indexOfHeadPosition + 1; i < tape.length - 1; i++) {
             rightTapeText += tape[i];
         }
 
         activeChar = tape[indexOfHeadPosition];
-        
+        leftTapeText = leftTapeText.replace(/\_/g, " ");
+        rightTapeText = rightTapeText.replace(/\_/g, " ");
+        console.log(leftTapeText + rightTapeText);
         leftTape.text(leftTapeText);
         rightTape.text(rightTapeText);
 
@@ -387,14 +390,15 @@ $(document).ready(function () {
 
 
         let m = new Machine(tape, head, rules);
-        m.runStatus = true;
-        console.log(`runState: ${m.runStatus}`);
+        //m.runStatus = true;
+       // console.log(`runState: ${m.runStatus}`);
         m.run();
         e.preventDefault();
     });
+ 
     // $("#StepButton").on("click", oneStep);
     $("#PauseButton").on("click", function () {
         $("#PauseButton").prop("disabled", true);
-        m.setRunState(false);
+       // m.setRunState(false);
     });
 });
