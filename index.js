@@ -351,12 +351,14 @@ $(document).ready(function () {
         console.log("SJAHDKASJHDASKJDHASDKJHASDJKASHDKASHJD", typeof(leftTapeText), leftTapeText)
         leftTapeText.split("").reverse().join("");
 
-        for(let i = indexOfHeadPosition + 1; i < tape.length; i++) {
+        for(let i = indexOfHeadPosition + 1; i < tape.length - 1; i++) {
             rightTapeText += tape[i];
         }
 
         activeChar = tape[indexOfHeadPosition];
-        
+        leftTapeText = leftTapeText.replace(/\_/g, " ");
+        rightTapeText = rightTapeText.replace(/\_/g, " ");
+        console.log(leftTapeText + rightTapeText);
         leftTape.text(leftTapeText);
         rightTape.text(rightTapeText);
 
