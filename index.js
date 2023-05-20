@@ -344,7 +344,7 @@ $(document).ready(function () {
         let leftTapeText ='';
         let rightTapeText = '';
 
-        for(let i = indexOfHeadPosition - 1; i >= 0; i--) {
+        for(let i = 0; i < indexOfHeadPosition; i++) {
             leftTapeText += tape[i];
         }
         console.log("SJAHDKASJHDASKJDHASDKJHASDJKASHDKASHJD", typeof(leftTapeText), leftTapeText)
