@@ -218,13 +218,13 @@ $(document).ready(function () {
                 changeCurState(this.head.state);
                 changeCurSteps(this.numSteps);
                 changeActiveArea(this.head.idx, this.tape.tape);
+                await new Promise(r => setTimeout(r, 200));
 
             }
             console.log("Final tape condition and final state");
             console.log(this.status);
             console.log(this.head.state);
             console.log(this.tape.tape[this.head.idx])
-            await new Promise(r => setTimeout(r, 2000));
         }
 
         halfSpeedRun() {
