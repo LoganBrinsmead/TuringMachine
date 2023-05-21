@@ -218,7 +218,7 @@ $(document).ready(function () {
                 changeCurState(this.head.state);
                 changeCurSteps(this.numSteps);
                 changeActiveArea(this.head.idx, this.tape.tape);
-                await new Promise(r => setTimeout(r, 100));
+                await new Promise(r => setTimeout(r, 75));
 
             }
             console.log("Final tape condition and final state");
