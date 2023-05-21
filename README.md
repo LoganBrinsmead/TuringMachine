@@ -21,6 +21,8 @@ Our machine should match all of the programs on Morphett, and we primarily test 
 
 This means, the best way to test our program is by copy and pasting the programs from Morphett. Our output should match the output from Morphett.
 
+### When copying the below programs, do not copy the backticks at the start and end of the program, they are for formatting on github.
+
 ## Program 1, Palindrome detector
 
 ### Program
