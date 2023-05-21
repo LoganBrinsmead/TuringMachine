@@ -2,6 +2,10 @@
 
 A Turing Machine written in JQuery.
 
+Written by Logan Brinsmead and Pablo Barriga
+ 
+Written for CS 454, Theory of Computation at Sonoma State University
+
 # How to Run
 - cd into the repository
 - run the command: npm install
