@@ -24,6 +24,7 @@ This means, the best way to test our program is by copy and pasting the programs
 ## Program 1, Palindrome detector
 
 ### Program
+```
 ; This example program checks if the input string is a binary palindrome.
 ; Input: a string of 0's and 1's, eg '1001001'
 
@@ -63,18 +64,22 @@ accept2 * ) * halt-accept
 reject _ : r reject2
 reject * _ l reject
 reject2 * ( * halt-reject
+```
 
 ### Tape
 1001001
 
 ### Expected Output
 Tape should read: :)
+
 "Current State" box should read: halt-accept
+
 "Current Steps" box should read: 38 
 
 ## Program 2, Binary Addition
 
 ### Program 
+```
 ; Binary addition - adds two binary numbers
 ; Input: two binary numbers, separated by a single space, eg '100 1110'
 
@@ -108,20 +113,23 @@ Tape should read: :)
 7 y 1 l 7
 7 _ _ r halt
 7 * * l 7
-
+```
 
 ### Tape
 110110 101011
 
 ### Expected Output
 Tape should read: 1100001
+
 "Current State" box should read: halt
+
 "Current Steps" box should read: 135 
 
 
 ## Program 3, Binary Multiplication
 
 ### Program
+```
 ; Binary multiplication machine - multiplies two numbers given in binary
 ; Input: two numbers in binary, separated by a space, eg "101 1101"
 ; Output: the product of the two inputs, in binary
@@ -246,11 +254,14 @@ Tape should read: 1100001
 81 * _ r 81
 82 _ _ l 82
 82 * * * halt
+```
 
 ### Tape
 1101 11010
 
 ### Expected Output
 Tape should read: 101010010
+
 "Current State" box should read: halt
+
 "Current Steps" box should read: 980 
