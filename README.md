@@ -2,6 +2,11 @@
 
 A Turing Machine written in JQuery.
 
+# How to Run
+- cd into the repository
+- run the command: npm install
+- open the index.html file in a web browser
+
 # Tests
 
 For these tests, copy and paste the program into the program box in our Turing Machine, then copy and paste the tape into the "initial input" box on the right.
