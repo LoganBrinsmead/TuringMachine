@@ -17,13 +17,6 @@ $(document).ready(function () {
             return this.tape.join("");
         }
 
-        // setter for tape
-        // set tape(string) {
-        //     console.log(typeof(string))
-
-        //     this.tape = Tape.parse(string.join()); 
-        // }
-
         //lets us push a blank symbol to the back of the array
         extendRight() {
 
@@ -162,7 +155,8 @@ $(document).ready(function () {
             let newState;
             let writeSymbol;
             let direction;
-            
+
+            //this.rules[this.head.state][this.tape.tape[this.head.idx]][0] !== "*")
             if (this.rules[this.head.state][this.tape.tape[this.head.idx]] != null) {
                 if (this.rules[this.head.state][this.tape.tape[this.head.idx]][0] === "*") {
                     newState = this.head.state;
@@ -348,7 +342,6 @@ $(document).ready(function () {
         for(let i = 0; i < indexOfHeadPosition; i++) {
             leftTapeText += tape[i];
         }
-        console.log("SJAHDKASJHDASKJDHASDKJHASDJKASHDKASHJD", typeof(leftTapeText), leftTapeText)
         leftTapeText.split("").reverse().join("");
 
         for(let i = indexOfHeadPosition + 1; i < tape.length - 1; i++) {
@@ -367,7 +360,6 @@ $(document).ready(function () {
 
     // function to change the number of steps on the frontend
     function changeCurSteps(numSteps) {
-        console.log("numSteps: ", numSteps, " numSteps as string: ", numSteps.toString())
         $("#MachineCurrentStep").text(numSteps.toString());
     }
 
